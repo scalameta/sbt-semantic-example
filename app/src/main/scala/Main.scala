@@ -10,9 +10,9 @@ object Main {
     //   2) From a classpath and a sourcepath
     // In this demonstration, we experiment with the second approach.
     //
-    // library.classpath and library.sourcepath are set up automatically by sbt.
-    // See build.sbt for more details.
-    implicit val mirror = Mirror(sys.props("library.classpath"), sys.props("library.sourcepath"))
+    // This Mirror constructor relies on the -Dscalameta.sourcepath and -Dscalameta.classpath
+    // system properties that are automaticallly configured by the sbt-scalahost.
+    implicit val mirror = Mirror()
 
     // The foundational data structure underlying a mirror is a semantic database,
     // which stores semantic information Scala programs

@@ -1,16 +1,11 @@
-lazy val MetaVersion = {
-  val buildSbt = scala.io.Source.fromFile("build.sbt").getLines.toList
-  val MetaVersionRx = "lazy val MetaVersion = \"(.*?)\"".r
-  buildSbt.flatMap(line => MetaVersionRx.unapplySeq(line).map(_.head)) match {
-    case List(metaVersion) => metaVersion
-    case _ => sys.error("cannot load MetaVersion from build.sbt")
-  }
-}
-
 // sbt-scalahost enables generation of a semantic database,
 // i.e. a storage for semantic information about Scala code.
 // See https://github.com/scalameta/scalameta/issues/605 for details.
-addSbtPlugin("org.scalameta" % "sbt-scalahost" % MetaVersion)
+// The latest stable version can be found at:
+//   http://scalameta.org/
+// The latest prerelease version can be found at:
+//   https://bintray.com/scalameta/maven/scalameta/_latestVersion
+addSbtPlugin("org.scalameta" % "sbt-scalahost" % "1.6.0-690.1487689575986")
 
 // sbt-coursier parallelizes downloads of dependencies.
 // If you haven't tried it yet, do so - the productivity boost it provides is insane.
