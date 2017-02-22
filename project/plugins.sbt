@@ -5,7 +5,7 @@
 //   http://scalameta.org/
 // The latest prerelease version can be found at:
 //   https://bintray.com/scalameta/maven/scalameta/_latestVersion
-addSbtPlugin("org.scalameta" % "sbt-scalahost" % "1.6.0-690.1487689575986")
+addSbtPlugin("org.scalameta" % "sbt-scalahost" % "1.6.0")
 
 // sbt-coursier parallelizes downloads of dependencies.
 // If you haven't tried it yet, do so - the productivity boost it provides is insane.
