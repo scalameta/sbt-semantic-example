@@ -3,8 +3,9 @@ Minimal template to play with the scala.meta semantic API
 
 To use this project
 ```
-git clone https://github.com/scalameta/sbt-semantic-example`
-sbt app/run
+$ git clone https://github.com/scalameta/sbt-semantic-example
+$ cd sbt-semantic-example
+$ sbt app/run
 ```
 
 That should print out something like this
