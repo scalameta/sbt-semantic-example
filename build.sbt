@@ -1,13 +1,27 @@
-// Scala.meta semantic API is available for two most recent minor versions of Scala.
-// At the time of writing, that's 2.11.11 and 2.12.2.
-scalaVersion in ThisBuild := "2.11.11"
+lazy val ScalametaVersion = "2.0.0-M2"
 
-// Thanks to sbt-scalahost, scala.meta will generate a semantic database for this project on compilation.
-// See https://github.com/scalameta/scalameta/issues/605 for details about the semantic database.
-lazy val library = project
+lazy val semanticdbSettings = List(
+  scalaVersion := "2.12.3", // 2.11.11 is also supported.
+  addCompilerPlugin("org.scalameta" % "semanticdb-scalac" % ScalametaVersion cross CrossVersion.full),
+  scalacOptions += "-Yrangepos"
+)
 
-// To load and analyze the semantic database of `library`, add a dependency on library in the Scalameta configuration.
-// sbt-scalahost will set up the correct dependencies and environment for you.
-// We use the semantic database to load a "scala.meta.Mirror",
-// check out /app/src/main/scala/Main.scala how that is done.
-lazy val app = project.dependsOn(library % Scalameta)
+// Build a semanticdb for this project.
+lazy val analyzeme = project.settings(
+  semanticdbSettings
+)
+
+lazy val analyzer = project
+  .settings(
+    scalaVersion := "2.12.3", // 2.11.11 is also supported, regardless of scalaVersion in analyzeme.
+    libraryDependencies += "org.scalameta" %% "scalameta" % ScalametaVersion,
+    // (optional) we need to pass the classpath/sourcepath to our analyzer, one way to do that is with
+    // sbt-buildinfo. For a cli analyzer, it makes sense to read --classpath and --sourcepath.
+    buildInfoPackage := "myapp",
+    buildInfoKeys := Seq[BuildInfoKey](
+      "classpath" -> classDirectory.in(analyzeme, Compile).value.getAbsolutePath,
+      "sourcepath" -> baseDirectory.in(ThisBuild).value.getAbsolutePath
+    )
+  )
+  .enablePlugins(BuildInfoPlugin) // generate BuildInfo object with sourcepath and classpath.
+  .dependsOn(analyzeme) // optional, but convenient to trigger compilation of analyzeme on analyzer/run.
