@@ -1,4 +1,4 @@
-lazy val ScalametaVersion = "2.0.0-M2"
+lazy val ScalametaVersion = "2.0.0-RC1"
 
 lazy val semanticdbSettings = List(
   scalaVersion := "2.12.3", // 2.11.11 is also supported.
